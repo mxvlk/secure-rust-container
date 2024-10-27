@@ -28,6 +28,10 @@ jobs:
         run: |
           echo "${{ secrets.PUBLIC_KEY }}" > key.rsa.pub
         shell: bash
+      - name: debug
+        run: ls -lah 
+      - name: debug
+        run: echo "${{ github.workspace }}"
       - name: Build apk of rust code with melange
         run: |
           docker run --pull always --rm --privileged \
