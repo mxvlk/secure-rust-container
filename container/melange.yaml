@@ -19,8 +19,7 @@ environment:
       - zlib-dev
 
 pipeline:
-  - working-directory: /work
-    runs: ls -lah
+  - runs: ls -lah
   - uses: cargo/build
     with:
       output: webserver
