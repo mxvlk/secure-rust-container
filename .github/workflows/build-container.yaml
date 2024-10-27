@@ -31,6 +31,7 @@ jobs:
       - name: Build apk of rust code with melange
         run: |
           docker run --pull always --rm --privileged \
+          -w /work \
           -v "${{ github.workspace }}:/work" \
           -v "$(pwd)/key.rsa:/work/key.rsa" \
           cgr.dev/chainguard/melange:latest \
@@ -38,6 +39,7 @@ jobs:
       - name: Build container image
         run: |
           docker run --pull always --rm --privileged \
+          -w /work \
           -v "${{ github.workspace }}:/work" \
           -v "$(pwd)/key.rsa.pub:/work/keys/key.rsa.pub" \
           cgr.dev/chainguard/apko:latest \
