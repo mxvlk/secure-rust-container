@@ -34,7 +34,7 @@ jobs:
           -v "${{ github.workspace }}:/work" \
           -v "$(pwd)/key.rsa:/work/key.rsa" \
           cgr.dev/chainguard/melange:latest \
-          build --signing-key /work/key.rsa melange.yaml
+          build --signing-key /work/key.rsa /work/container/melange.yaml
       - name: Build container image
         run: |
           docker run --pull always --rm --privileged \
