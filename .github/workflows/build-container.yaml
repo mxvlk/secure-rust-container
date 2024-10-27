@@ -34,7 +34,7 @@ jobs:
         run: echo "${{ github.workspace }}"
       - name: Build apk of rust code with melange
         run: |
-          docker run --pull always --rm --privileged \
+          docker run --pull always --rm \
           -w /work \
           -v "${{ github.workspace }}:/work" \
           -v "$(pwd)/key.rsa:/work/key.rsa" \
@@ -42,7 +42,7 @@ jobs:
           build --signing-key /work/key.rsa /work/container/melange.yaml
       - name: Build container image
         run: |
-          docker run --pull always --rm --privileged \
+          docker run --pull always --rm \
           -w /work \
           -v "${{ github.workspace }}:/work" \
           -v "$(pwd)/key.rsa.pub:/work/keys/key.rsa.pub" \
