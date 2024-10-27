@@ -3,7 +3,7 @@ package:
   version: 0.0.1
   description: A rust webserver
   target-architecture:
-    - amd64
+    - x86_64
 
 environment:
   contents:
