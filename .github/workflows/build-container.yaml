@@ -44,6 +44,12 @@ jobs:
           -v "$(pwd)/key.rsa.pub:/work/keys/key.rsa.pub" \
           cgr.dev/chainguard/apko:latest \
           build /work/apko.yaml webserver:latest webserver.tar
+      - name: debug
+        run: ls -lah
+      - name: load docker image
+        run: docker load -i webserver.tar
+      - name: debug
+        run: docker images
       - name: Push container image
         run: |
           docker push ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest    
