@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 env:
   REGISTRY: ghcr.io
-  REGISTRY_PW: ${{ secrets.GITHUB_TOKEN }
+  REGISTRY_PW: ${{ secrets.GITHUB_TOKEN }}
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
