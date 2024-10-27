@@ -34,7 +34,7 @@ jobs:
         run: echo "${{ github.workspace }}"
       - name: Build apk of rust code with melange
         run: |
-          docker run --pull always --rm \
+          docker run --pull always --rm --privileged \
           -w /work \
           -v "${{ github.workspace }}:/work" \
           -v "$(pwd)/key.rsa:/work/key.rsa" \
