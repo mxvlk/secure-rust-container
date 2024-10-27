@@ -31,12 +31,12 @@ jobs:
       - name: debug
         run: ls -lah 
       - name: debug
-        run: echo "${{ github.workspace }}"
+        run: echo "$(pwd)"
       - name: Build apk of rust code with melange
         run: |
           docker run --pull always --rm --privileged \
           -w /work \
-          -v "${{ github.workspace }}:/work" \
+          -v "$(pwd):/work" \
           -v "$(pwd)/key.rsa:/work/key.rsa" \
           cgr.dev/chainguard/melange:latest \
           build --signing-key /work/key.rsa /work/container/melange.yaml
@@ -44,7 +44,7 @@ jobs:
         run: |
           docker run --pull always --rm \
           -w /work \
-          -v "${{ github.workspace }}:/work" \
+          -v "$(pwd):/work" \
           -v "$(pwd)/key.rsa.pub:/work/keys/key.rsa.pub" \
           cgr.dev/chainguard/apko:latest \
           build /work/container/apko.yaml webserver:latest webserver.tar
