@@ -20,3 +20,5 @@ environment:
 
 pipeline:
   - uses: cargo/build
+    with:
+        output: ${{package.name}}
