@@ -1,0 +1,22 @@
+package:
+  name: rust-webserver
+  version: 0.0.1
+  description: A rust webserver
+  target-architecture:
+    - amd64
+
+environment:
+  contents:
+    keyring:
+      - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+    repositories:
+      - https://packages.wolfi.dev/os
+    packages:
+      - build-base
+      - busybox
+      - ca-certificates-bundle
+      - libgit2-dev
+      - zlib-dev
+
+pipeline:
+  - uses: cargo/build

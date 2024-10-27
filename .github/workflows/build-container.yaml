@@ -1,0 +1,51 @@
+name: build container and publish it
+on:
+  workflow_dispatch:
+env:
+  REGISTRY: ghcr.io
+  REGISTRY_PW: ${{ secrets.GITHUB_REG_PW }}
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-container:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ env.REGISTRY_PW }}
+      - name: Write signing key to file
+        run: |
+          echo "${{ secrets.SIGNING_KEY }}" > key.rsa
+      - name: Write public key to file
+        run: |
+          echo "${{ secrets.PUBLIC_KEY }}" > key.rsa.pub
+        shell: bash
+      - name: Build apk of rust code with melange
+        run: |
+          docker run --pull always --rm --privileged \
+          -v "${{ github.workspace }}:/work" \
+          -v "$(pwd)/key.rsa:/work/key.rsa" \
+          --signing-key /work/key.rsa \
+          cgr.dev/chainguard/melange:latest \
+          build melange.yaml
+      - name: Build container image
+        run: |
+          docker run --pull always --rm --privileged \
+          -v "${{ github.workspace }}:/work" \
+          -v "$(pwd)/key.rsa.pub:/work/keys/key.rsa.pub" \
+          cgr.dev/chainguard/apko:latest \
+          build apko.yaml
+      - name: Push container image
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest    
+  
+    
+
