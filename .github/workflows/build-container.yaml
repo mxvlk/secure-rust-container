@@ -28,10 +28,6 @@ jobs:
         run: |
           echo "${{ secrets.PUBLIC_KEY }}" > key.rsa.pub
         shell: bash
-      - name: debug
-        run: ls -lah 
-      - name: debug
-        run: echo "$(pwd)"
       - name: Build apk of rust code with melange
         run: |
           docker run --pull always --rm --privileged \
@@ -39,7 +35,7 @@ jobs:
           -v "$(pwd):/work" \
           -v "$(pwd)/key.rsa:/work/key.rsa" \
           cgr.dev/chainguard/melange:latest \
-          build --signing-key /work/key.rsa /work/container/melange.yaml
+          build --signing-key /work/key.rsa /work/melange.yaml
       - name: Build container image
         run: |
           docker run --pull always --rm \
@@ -47,7 +43,7 @@ jobs:
           -v "$(pwd):/work" \
           -v "$(pwd)/key.rsa.pub:/work/keys/key.rsa.pub" \
           cgr.dev/chainguard/apko:latest \
-          build /work/container/apko.yaml webserver:latest webserver.tar
+          build /work/apko.yaml webserver:latest webserver.tar
       - name: Push container image
         run: |
           docker push ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest    
